@@ -7,8 +7,12 @@ if (!process.env.GOOGLE_ID) {
 if (!process.env.GOOGLE_SECRET) {
    throw new Error('GOOGLE_SECRET is required')
 }
+if (!process.env.NEXTAUTH_SECRET) {
+   throw new Error('NEXTAUTH_SECRET is required')
+}
 
 export const authOptions = {
+   secret: process.env.NEXTAUTH_SECRET,
    providers: [
       GoogleProvider({
          clientId: process.env.GOOGLE_ID,
