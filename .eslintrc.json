@@ -3,8 +3,12 @@
       "next/core-web-vitals",
       "plugin:@typescript-eslint/recommended",
       "airbnb",
+      "airbnb-typescript",
       "prettier"
    ],
+   "parserOptions": {
+      "project": "./tsconfig.json"
+   },
    "plugins": ["prettier"],
    "rules": {
       "prettier/prettier": ["error"],
