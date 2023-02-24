@@ -1,4 +1,5 @@
 import { FieldValue } from 'firebase/firestore'
+import { StaticImageData } from 'next/image'
 
 interface Message {
    text: string
@@ -6,6 +7,6 @@ interface Message {
    user: {
       _id: string
       name: string
-      avatar: string
+      avatar: string | StaticImageData
    }
 }
