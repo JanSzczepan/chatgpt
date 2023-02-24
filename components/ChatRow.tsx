@@ -1,8 +1,8 @@
 import { ChatBubbleLeftIcon, TrashIcon } from '@heroicons/react/24/outline'
-import { collection } from 'firebase/firestore'
+import { collection, deleteDoc, doc } from 'firebase/firestore'
 import { useSession } from 'next-auth/react'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { useCollection } from 'react-firebase-hooks/firestore'
 import { db } from '../firebase'
@@ -12,6 +12,7 @@ type ChatRowProps = {
 }
 
 function ChatRow({ id }: ChatRowProps) {
+   const router = useRouter()
    const pathname = usePathname()
    const { data: session } = useSession()
    const [messages] = useCollection(
@@ -33,6 +34,13 @@ function ChatRow({ id }: ChatRowProps) {
       setIsActive(pathname.includes(id))
    }, [pathname, id])
 
+   const removeChat = async (docId: string) => {
+      if (session?.user?.email) {
+         await deleteDoc(doc(db, 'users', session?.user?.email, 'chats', docId))
+         router.replace('/')
+      }
+   }
+
    return (
       <Link
          href={`chat/${id}`}
@@ -43,7 +51,15 @@ function ChatRow({ id }: ChatRowProps) {
             {messages?.docs[messages.docs.length - 1]?.data().text ||
                'New Chat'}
          </p>
-         <TrashIcon className='h-5 w-5 text-gray-700 hover:text-red-700' />
+         {isActive && (
+            <button
+               type='button'
+               onClick={() => removeChat(id)}
+               className='text-gray-700 hover:text-red-700'
+            >
+               <TrashIcon className='h-5 w-5' />
+            </button>
+         )}
       </Link>
    )
 }
