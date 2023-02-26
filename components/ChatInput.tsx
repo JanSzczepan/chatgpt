@@ -5,6 +5,7 @@ import { PaperAirplaneIcon } from '@heroicons/react/24/solid'
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore'
 import { useSession } from 'next-auth/react'
 import { toast } from 'react-hot-toast'
+import useSWR from 'swr'
 import { Message } from '../typings'
 import { db } from '../firebase'
 
@@ -16,7 +17,9 @@ function ChatInput({ id }: ChatInputProps) {
    const { data: session } = useSession()
    const [prompt, setPropmpt] = useState('')
 
-   const model = 'text-davinci-003'
+   const { data: model } = useSWR('model', {
+      fallbackData: 'text-davinci-003',
+   })
 
    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
       setPropmpt(e.target.value)
