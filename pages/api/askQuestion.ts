@@ -3,7 +3,7 @@ import admin from 'firebase-admin'
 import queryApi from '../../utils/queryApi'
 import { Message } from '../../typings'
 import adminDb from '../../firebaseAdmin'
-import ChatGPTLogo from '../../public/images/ChatGPTLogo.png'
+import ChatGPTLogo from '../../public/images/ChatGPTSmallLogo.png'
 
 type Data = {
    answer: string

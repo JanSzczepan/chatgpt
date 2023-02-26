@@ -1,5 +1,5 @@
 import admin from 'firebase-admin'
-import { getApps } from 'firebase/app'
+import { getApps } from 'firebase-admin/app'
 
 if (!process.env.FIREBASE_SERVICE_ACCOUNT_KEY) {
    throw new Error('FIREBASE_SERVICE_ACCOUNT_KEY is required')
