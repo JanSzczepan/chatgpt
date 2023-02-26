@@ -1,7 +1,14 @@
 'use client'
 
+import { CheckIcon } from '@heroicons/react/24/solid'
+import {
+   ArrowRightOnRectangleIcon,
+   SunIcon,
+   TrashIcon,
+} from '@heroicons/react/24/outline'
 import { collection, orderBy, query } from 'firebase/firestore'
 import { signOut, useSession } from 'next-auth/react'
+import { useState } from 'react'
 import { useCollection } from 'react-firebase-hooks/firestore'
 import { db } from '../firebase'
 import ChatRow from './ChatRow'
@@ -9,6 +16,7 @@ import ModelSelection from './ModelSelection'
 import NewChat from './NewChat'
 
 function SideBar() {
+   const [isSureToDelete, setIsSureToDelete] = useState(false)
    const { data: session } = useSession()
    const [chats, loading] = useCollection(
       session &&
@@ -18,9 +26,27 @@ function SideBar() {
          )
    )
 
+   const handleDelete = async () => {
+      if (session?.user?.email) {
+         if (isSureToDelete) {
+            await fetch('/api/deleteAllDocs', {
+               method: 'DELETE',
+               headers: {
+                  'Content-Type': 'application/json',
+               },
+               body: JSON.stringify({ session }),
+            }).then(() => {
+               setIsSureToDelete(false)
+            })
+         } else {
+            setIsSureToDelete(true)
+         }
+      }
+   }
+
    return (
       <div className='p-2 flex flex-col h-screen'>
-         <div className='flex-1'>
+         <div className='mb-2 flex-1 border-b-[1px] border-[#343541]'>
             <div>
                <NewChat />
                <div className='hidden sm:inline'>
@@ -42,19 +68,41 @@ function SideBar() {
             </div>
          </div>
          {session && (
-            <button
-               type='button'
-               className='mx-auto my-2 cursor-pointer'
-               onClick={() => signOut()}
-            >
-               <img
-                  src={
-                     session.user?.image || '../public/images/UserProfile.png'
-                  }
-                  alt='User profile'
-                  className='w-12 h-12 rounded-full hover:opacity-50'
-               />
-            </button>
+            <div className='space-y-1 text-white text-sm'>
+               {!!chats?.docs.length && (
+                  <button
+                     type='button'
+                     className='sidebarButton'
+                     onClick={handleDelete}
+                  >
+                     {isSureToDelete ? (
+                        <CheckIcon className='w-4 h-4' />
+                     ) : (
+                        <TrashIcon className='w-4 h-4' />
+                     )}
+                     <span>
+                        {isSureToDelete
+                           ? 'Confirm clear conversations'
+                           : 'Clear conversations'}
+                     </span>
+                  </button>
+               )}
+               <button
+                  type='button'
+                  className='sidebarButton'
+               >
+                  <SunIcon className='w-4 h-4' />
+                  <span>Light mode</span>
+               </button>
+               <button
+                  type='button'
+                  className='sidebarButton'
+                  onClick={() => signOut()}
+               >
+                  <ArrowRightOnRectangleIcon className='w-4 h-4' />
+                  <span>Log out</span>
+               </button>
+            </div>
          )}
       </div>
    )

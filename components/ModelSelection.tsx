@@ -30,7 +30,7 @@ function ModelSelection() {
             value={model}
             options={models?.modelOptions}
             placeholder={model}
-            isSearchable
+            isSearchable={false}
             menuPosition='fixed'
             classNames={{ control: () => 'bg-[#434654] border-[#434654]' }}
             onChange={(e) => setModel(e.value)}

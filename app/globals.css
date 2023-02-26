@@ -8,6 +8,10 @@
    }
 
    .chatRow {
-      @apply rounded-lg px-5 py-3 text-sm text-gray-300 flex items-center justify-center space-x-2 cursor-pointer hover:bg-gray-700/70 transition-colors duration-200 ease-out;
+      @apply rounded-lg px-3 py-3 text-sm text-gray-300 flex items-center justify-center space-x-2 cursor-pointer hover:bg-gray-700/70 transition-colors duration-200 ease-out;
+   }
+
+   .sidebarButton {
+      @apply px-3 py-3 flex items-center space-x-3 w-full cursor-pointer rounded-lg hover:bg-[#2B2C2F];
    }
 }
