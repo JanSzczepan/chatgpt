@@ -2,9 +2,10 @@ import { ReactNode } from 'react'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '../pages/api/auth/[...nextauth]'
 import SessionProvider from '../components/SessionProvider'
-import SideBar from '../components/SideBar'
 import Login from '../components/Login'
+import { ThemeContextProvider } from '../contexts/ThemeContext'
 import ClientProvider from '../components/ClientProvider'
+import SideBar from '../components/SideBar'
 import './globals.css'
 
 export default async function RootLayout({
@@ -19,17 +20,19 @@ export default async function RootLayout({
          <head />
          <body>
             <SessionProvider session={session}>
-               {session ? (
-                  <div className='flex'>
-                     <div className='bg-[#202123] max-w-xs min-h-screen overflow-y-auto md:min-w-[20rem]'>
-                        <SideBar />
+               <ThemeContextProvider>
+                  {session ? (
+                     <div className='flex'>
+                        <div className='bg-[#202123] max-w-xs min-h-screen overflow-y-auto md:min-w-[20rem]'>
+                           <SideBar />
+                        </div>
+                        <ClientProvider />
+                        {children}
                      </div>
-                     <ClientProvider />
-                     <div className='bg-[#343541] flex-1'>{children}</div>
-                  </div>
-               ) : (
-                  <Login />
-               )}
+                  ) : (
+                     <Login />
+                  )}
+               </ThemeContextProvider>
             </SessionProvider>
          </body>
       </html>

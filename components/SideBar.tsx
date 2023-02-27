@@ -3,6 +3,7 @@
 import { CheckIcon } from '@heroicons/react/24/solid'
 import {
    ArrowRightOnRectangleIcon,
+   MoonIcon,
    SunIcon,
    TrashIcon,
 } from '@heroicons/react/24/outline'
@@ -14,9 +15,12 @@ import { db } from '../firebase'
 import ChatRow from './ChatRow'
 import ModelSelection from './ModelSelection'
 import NewChat from './NewChat'
+import { useThemeContext } from '../contexts/ThemeContext'
+import { ThemeActionType } from '../reducers/themeReducer'
 
 function SideBar() {
    const [isSureToDelete, setIsSureToDelete] = useState(false)
+   const { state, dispatch } = useThemeContext()
    const { data: session } = useSession()
    const [chats, loading] = useCollection(
       session &&
@@ -90,9 +94,20 @@ function SideBar() {
                <button
                   type='button'
                   className='sidebarButton'
+                  onClick={() =>
+                     dispatch(
+                        state.mode === 'light'
+                           ? { type: ThemeActionType.DARK, payload: 'dark' }
+                           : { type: ThemeActionType.LIGHT, payload: 'light' }
+                     )
+                  }
                >
-                  <SunIcon className='w-4 h-4' />
-                  <span>Light mode</span>
+                  {state.mode === 'light' ? (
+                     <MoonIcon className='w-4 h-4' />
+                  ) : (
+                     <SunIcon className='w-4 h-4' />
+                  )}
+                  <span>{state.mode === 'light' ? 'Dark' : 'Light'} mode</span>
                </button>
                <button
                   type='button'

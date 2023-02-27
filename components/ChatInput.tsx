@@ -8,12 +8,14 @@ import { toast } from 'react-hot-toast'
 import useSWR from 'swr'
 import { Message } from '../typings'
 import { db } from '../firebase'
+import { useThemeContext } from '../contexts/ThemeContext'
 
 type ChatInputProps = {
    id: string
 }
 
 function ChatInput({ id }: ChatInputProps) {
+   const { state } = useThemeContext()
    const { data: session } = useSession()
    const [prompt, setPropmpt] = useState('')
 
@@ -64,9 +66,15 @@ function ChatInput({ id }: ChatInputProps) {
    }
 
    return (
-      <div className='bg-gray-700/50 text-gray-400 rounded-lg text-sm'>
+      <div
+         className={`${
+            state.mode === 'light'
+               ? 'bg-white text-[#343541] border-[1px] border-[#E5E5E5] drop-shadow-[0_0_10px_rgba(0,0,0,0.05)]'
+               : 'bg-gray-700/50 text-gray-400'
+         } rounded-lg text-sm mx-10 my-5`}
+      >
          <form
-            className='p-5 flex space-x-5'
+            className='px-5 py-3 flex space-x-5'
             onSubmit={sendMessage}
          >
             <input
