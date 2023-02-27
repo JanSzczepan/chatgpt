@@ -26,6 +26,7 @@ function ModelSelection() {
                   backgroundColor: '#434654',
                   border: '1px solid #434654',
                }),
+               placeholder: (provided) => ({ ...provided, color: '#D1D5DA' }),
             }}
             value={model}
             options={models?.modelOptions}

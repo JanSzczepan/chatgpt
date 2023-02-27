@@ -1,7 +1,7 @@
 'use client'
 
 import { ChangeEvent, FormEvent, useState } from 'react'
-import { PaperAirplaneIcon } from '@heroicons/react/24/solid'
+import { PaperAirplaneIcon } from '@heroicons/react/24/outline'
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore'
 import { useSession } from 'next-auth/react'
 import { toast } from 'react-hot-toast'
@@ -70,11 +70,11 @@ function ChatInput({ id }: ChatInputProps) {
          className={`${
             state.mode === 'light'
                ? 'bg-white text-[#343541] border-[1px] border-[#E5E5E5] drop-shadow-[0_0_10px_rgba(0,0,0,0.05)]'
-               : 'bg-gray-700/50 text-gray-400'
+               : 'bg-[#40414F] text-white'
          } rounded-lg text-sm mx-10 my-5`}
       >
          <form
-            className='px-5 py-3 flex space-x-5'
+            className='px-5 py-2 flex space-x-5'
             onSubmit={sendMessage}
          >
             <input
@@ -86,11 +86,15 @@ function ChatInput({ id }: ChatInputProps) {
                placeholder='Type your message here...'
             />
             <button
-               className='px-4 py-2 bg-[#11A37F] text-white font-bold rounded hover:opacity-50 disabled:bg-gray-300 disabled:cursor-not-allowed'
+               className={`${
+                  state.mode === 'light'
+                     ? 'hover:bg-[#F7F7F8] text-[#8E8E9F]'
+                     : 'hover:bg-[#202123] text-[#ACACBD]'
+               } px-3 py-2 font-bold rounded disabled:cursor-not-allowed`}
                type='submit'
                disabled={!prompt || !session}
             >
-               <PaperAirplaneIcon className='h-4 w-4 -rotate-45' />
+               <PaperAirplaneIcon className='h-5 w-5 -rotate-45' />
             </button>
          </form>
       </div>

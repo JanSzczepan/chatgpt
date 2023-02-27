@@ -47,7 +47,9 @@ function ChatRow({ id }: ChatRowProps) {
    return (
       <Link
          href={`chat/${id}`}
-         className={`chatRow justify-center ${isActive && 'bg-gray-700/50'}`}
+         className={`chatRow justify-center ${
+            isActive ? 'bg-[#343541]' : 'hover:bg-[#2A2B31]'
+         }`}
       >
          <ChatBubbleLeftIcon className='h-5 w-5' />
          <p className='flex-1 inline-flex truncate'>
@@ -58,9 +60,9 @@ function ChatRow({ id }: ChatRowProps) {
             <button
                type='button'
                onClick={() => removeChat(id)}
-               className='text-gray-700 hover:text-red-700'
+               className='text-gray-300 hover:text-white'
             >
-               <TrashIcon className='h-5 w-5' />
+               <TrashIcon className='h-4 w-4' />
             </button>
          )}
       </Link>
