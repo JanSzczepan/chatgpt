@@ -17,7 +17,7 @@ function ChatPage({ params: { id } }: ChatPageProps) {
       <div
          className={`${
             state.mode === 'light' ? 'bg-white' : 'bg-[#343541]'
-         } flex flex-1 flex-col h-screen overflow-x-hidden`}
+         } flex flex-1 flex-col md:h-screen overflow-x-hidden`}
       >
          <Chat id={id} />
          <ChatInput id={id} />
