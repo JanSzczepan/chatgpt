@@ -6,6 +6,7 @@ import Login from '../components/Login'
 import { ThemeContextProvider } from '../contexts/ThemeContext'
 import ClientProvider from '../components/ClientProvider'
 import SideBar from '../components/SideBar'
+import Navbar from '../components/Navbar'
 import './globals.css'
 
 export default async function RootLayout({
@@ -22,8 +23,9 @@ export default async function RootLayout({
             <SessionProvider session={session}>
                <ThemeContextProvider>
                   {session ? (
-                     <div className='flex'>
-                        <div className='bg-[#202123] max-w-xs min-h-screen overflow-y-auto md:min-w-[20rem]'>
+                     <div className='flex flex-col md:flex-row h-screen'>
+                        <Navbar />
+                        <div className='hidden md:block h-screen'>
                            <SideBar />
                         </div>
                         <ClientProvider />

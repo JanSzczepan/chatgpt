@@ -18,7 +18,11 @@ import NewChat from './NewChat'
 import { useThemeContext } from '../contexts/ThemeContext'
 import { ThemeActionType } from '../reducers/themeReducer'
 
-function SideBar() {
+type SideBarProps = {
+   isMobile?: boolean
+}
+
+function SideBar({ isMobile = false }: SideBarProps) {
    const [isSureToDelete, setIsSureToDelete] = useState(false)
    const { state, dispatch } = useThemeContext()
    const { data: session } = useSession()
@@ -49,13 +53,15 @@ function SideBar() {
    }
 
    return (
-      <div className='p-2 flex flex-col h-screen'>
-         <div className='mb-2 flex-1 border-b-[1px] border-[#343541]'>
+      <div
+         className={`p-2 flex flex-col h-screen bg-[#202123] overflow-y-hidden ${
+            isMobile ? 'w-[20rem]' : 'w-[16rem]'
+         }`}
+      >
+         <div className='mb-2 flex-1 border-b-[1px] border-[#343541] overflow-y-auto'>
             <div>
                <NewChat />
-               <div className='hidden sm:inline'>
-                  <ModelSelection />
-               </div>
+               <ModelSelection />
                <div className='flex flex-col space-y-2 my-2'>
                   {loading && (
                      <div className='text-center text-white animate-pulse'>
@@ -122,5 +128,9 @@ function SideBar() {
       </div>
    )
 }
+
+// SideBar.defaultProps = {
+//    isMobile: false,
+// }
 
 export default SideBar
