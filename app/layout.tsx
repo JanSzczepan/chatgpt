@@ -23,7 +23,7 @@ export default async function RootLayout({
             <SessionProvider session={session}>
                <ThemeContextProvider>
                   {session ? (
-                     <div className='flex flex-col md:flex-row h-screen'>
+                     <div className='flex flex-col md:flex-row min-h-screen'>
                         <Navbar />
                         <div className='hidden md:block h-screen'>
                            <SideBar />
